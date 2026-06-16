@@ -11,7 +11,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Syllable API Running");
 });
-app.use(errorHandler);
 app.use("/api/v1", routes);
+app.use(errorHandler);
 
 export default app;
