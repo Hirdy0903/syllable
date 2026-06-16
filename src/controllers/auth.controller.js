@@ -21,16 +21,23 @@ export const register = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await loginUser({
-    email,
-    password,
-  });
+const { user, token } = await loginUser({
+  email,
+  password,
+});
 
+res.status(200).json({
+  success: true,
+  data: {
+    id: user.id,
+    email: user.email,
+  },
+  token,
+});
+});
+export const me = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
-    data: {
-      id: user.id,
-      email: user.email,
-    },
+    user: req.user,
   });
 });
