@@ -1,22 +1,5 @@
-import "dotenv/config";
-import pg from "pg";
+import { PrismaClient } from "@prisma/client";
 
-const { Pool } = pg;
+const prisma = new PrismaClient();
 
-// Create a direct database connection pool (bypass Prisma temporarily)
-export const dbPool = new Pool({
-  host: "localhost",
-  port: 5432,
-  database: "syllable",
-  user: "postgres",
-  password: "password",
-  max: 20,
-});
-
-// Export empty Prisma client for compatibility
-export default {
-  user: {
-    findUnique: async () => null,
-    create: async () => null,
-  },
-};
+export default prisma;
