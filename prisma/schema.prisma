@@ -21,6 +21,7 @@ model Roadmap {
   id          String  @id @default(cuid())
   title       String
   description String?
+  content     Json?
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

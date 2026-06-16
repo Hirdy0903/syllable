@@ -12,6 +12,14 @@ app.get("/", (req, res) => {
   res.send("Syllable API Running");
 });
 app.use("/api/v1", routes);
+
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `Not Found - ${req.originalUrl}`
+  });
+});
+
 app.use(errorHandler);
 
 export default app;
