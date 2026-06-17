@@ -12,10 +12,19 @@ export const generateRoadmapController = asyncHandler(
     const cachedRoadmap = await redisClient.get(cacheKey);
 
     if (cachedRoadmap) {
-      return res.status(200).json({
+      const roadmapData = JSON.parse(cachedRoadmap);
+
+      const savedRoadmap = await createRoadmap({
+        title: roadmapData.title,
+        description: roadmapData.description,
+        content: roadmapData,
+        userId: req.user.userId,
+      });
+
+      return res.status(201).json({
         success: true,
         source: "cache",
-        data: JSON.parse(cachedRoadmap),
+        data: savedRoadmap,
       });
     }
 
@@ -30,7 +39,7 @@ export const generateRoadmapController = asyncHandler(
 
     await redisClient.set(
       cacheKey,
-      JSON.stringify(savedRoadmap),
+      JSON.stringify(roadmap),
       {
         EX: 60 * 60 * 24, // 24 hours
       }
